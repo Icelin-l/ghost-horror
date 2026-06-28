@@ -1,30 +1,114 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>罗德岛干员入职申请 | 预报干员心理测试</title>
-  <link rel="stylesheet" href="index.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>预报干员心理测试</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft Yahei",sans-serif;
+        }
+        body{
+            background: #12141d;
+            color: #e8e8e8;
+            padding: 30px 15px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .time-show{
+            text-align: center;
+            font-size: 16px;
+            color: #88aaff;
+            margin-bottom: 30px;
+        }
+        /*加载模块*/
+        .loading-box{
+            text-align: center;
+            padding: 80px 0;
+            font-size: 20px;
+        }
+        .hidden{
+            display: none !important;
+        }
+        /*答题区域*/
+        .test-box{
+        }
+        .page-num{
+            color: #aaaaaa;
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+        .question{
+            font-size: 18px;
+            line-height: 1.7;
+            margin-bottom: 30px;
+        }
+        .options{
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+        .opt-item{
+            padding: 14px 18px;
+            border: 1px solid #444a66;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .opt-item:hover{
+            background: #232942;
+            border-color: #6677bb;
+        }
+        .next-btn{
+            width: 100%;
+            padding: 15px;
+            background: #3b54aa;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .next-btn:active{
+            background: #2d4088;
+        }
+        /*最终结果页面*/
+        .result-box{
+            padding: 20px 10px;
+            line-height: 1.8;
+        }
+        .result-box h3{
+            color: #ffbc60;
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+    </style>
 </head>
 <body>
-  <!-- 加载同步界面 -->
-  <div class="loading-box">
-    <p>正在同步数据... <span id="progress">5%</span></p>
-    <p>当前时间:<span id="now-time">2026年6月22日</span></p>
-  </div>
+    <!--实时时间显示-->
+    <div class="time-show">当前时间：<span id="now-time"></span></div>
 
-  <!-- 测试主容器（默认隐藏，加载完成显示） -->
-  <div class="test-box hidden">
-    <h2>预备干员心理测试</h2>
-    <p>第一阶段:自我认知测试 <span id="page-num">第1题 / 共30题</span></p>
-    <div class="question"></div>
-    <div class="options"></div>
-    <button class="next-btn">下一题</button>
-  </div>
+    <!--加载页面-->
+    <div class="loading-box">
+        页面加载中 <span id="progress">5</span>%
+    </div>
 
-  <!-- 结果页 -->
-  <div class="result-box hidden"></div>
+    <!--答题容器 默认隐藏，加载完成展示-->
+    <div class="test-box hidden">
+        <div class="page-num" id="page-num"></div>
+        <div class="question"></div>
+        <div class="options"></div>
+        <button class="next-btn">下一题</button>
+    </div>
 
-  <script src="index.js"></script>
+    <!--结局结果框 默认隐藏-->
+    <div class="result-box hidden"></div>
+
+    <!--引入JS文件-->
+    <script src="index.js"></script>
 </body>
 </html>
