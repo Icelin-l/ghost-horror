@@ -2,113 +2,239 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>预报干员心理测试</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>罗德岛入职测试 | 预备干员心理测试</title>
     <style>
-        *{
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: "Microsoft Yahei",sans-serif;
+            font-family: "Microsoft YaHei", system-ui, sans-serif;
         }
-        body{
-            background: #12141d;
-            color: #e8e8e8;
-            padding: 30px 15px;
-            max-width: 600px;
+
+        body {
+            /* 泰拉深空渐变背景 */
+            background: linear-gradient(160deg, #0c0e18 0%, #171a2b 50%, #101322 100%);
+            min-height: 100vh;
+            color: #e6e9f2;
+            padding: 40px 18px;
+        }
+
+        .container {
+            max-width: 620px;
             margin: 0 auto;
         }
-        .time-show{
+
+        /* 顶部标题区域 */
+        .header-block {
             text-align: center;
-            font-size: 16px;
-            color: #88aaff;
+            margin-bottom: 35px;
+        }
+
+        .main-title {
+            font-size: 26px;
+            color: #d4b87a;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 12px rgba(212, 184, 122, 0.3);
+        }
+
+        .sub-desc {
+            font-size: 14px;
+            color: #8a94b8;
+        }
+
+        /* 实时时间栏 */
+        .time-show {
+            text-align: center;
+            font-size: 15px;
+            color: #73a9ff;
+            background: rgba(45, 60, 95, 0.35);
+            padding: 10px;
+            border-radius: 12px;
+            border: 1px solid rgba(90, 130, 200, 0.2);
             margin-bottom: 30px;
         }
-        /*加载模块*/
-        .loading-box{
-            text-align: center;
-            padding: 80px 0;
-            font-size: 20px;
-        }
-        .hidden{
+
+        /* 通用隐藏类 */
+        .hidden {
             display: none !important;
         }
-        /*答题区域*/
-        .test-box{
+
+        /* 加载动画板块 */
+        .loading-box {
+            text-align: center;
+            padding: 90px 20px;
         }
-        .page-num{
-            color: #aaaaaa;
-            margin-bottom: 20px;
-            font-size: 15px;
+
+        .loading-text {
+            font-size: 20px;
+            color: #a0aed6;
+            margin-bottom: 15px;
         }
-        .question{
-            font-size: 18px;
-            line-height: 1.7;
-            margin-bottom: 30px;
+
+        .progress-bar-wrap {
+            width: 70%;
+            height: 10px;
+            background: rgba(60, 75, 110, 0.4);
+            border-radius: 999px;
+            margin: 0 auto;
+            overflow: hidden;
         }
-        .options{
+
+        /* 答题卡片容器 */
+        .test-box {
+            background: rgba(22, 27, 45, 0.75);
+            border: 1px solid rgba(85, 110, 165, 0.25);
+            border-radius: 16px;
+            padding: 32px 28px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(8px);
+        }
+
+        .page-num {
+            font-size: 14px;
+            color: #949fb8;
+            margin-bottom: 22px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(70, 90, 130, 0.2);
+        }
+
+        .question {
+            font-size: 19px;
+            line-height: 1.8;
+            color: #f0f2f8;
+            margin-bottom: 32px;
+        }
+
+        /* 选项区域样式+选中高亮 */
+        .options {
             display: flex;
             flex-direction: column;
-            gap: 15px;
-            margin-bottom: 40px;
+            gap: 16px;
+            margin-bottom: 35px;
         }
-        .opt-item{
-            padding: 14px 18px;
-            border: 1px solid #444a66;
-            border-radius: 8px;
+
+        .opt-item {
+            padding: 16px 20px;
+            border: 1px solid rgba(75, 95, 140, 0.3);
+            border-radius: 12px;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.25s ease;
+            background: rgba(30, 36, 58, 0.5);
         }
-        .opt-item:hover{
-            background: #232942;
-            border-color: #6677bb;
+
+        .opt-item:hover {
+            border-color: #6288d8;
+            background: rgba(40, 55, 90, 0.6);
+            transform: translateY(-2px);
         }
-        .next-btn{
+
+        .opt-item.active {
+            border-color: #d4b87a;
+            background: rgba(90, 70, 40, 0.3);
+            box-shadow: 0 0 10px rgba(212, 184, 122, 0.25);
+        }
+
+        /* 下一题按钮美化 */
+        .next-btn {
             width: 100%;
-            padding: 15px;
-            background: #3b54aa;
+            padding: 16px;
+            background: linear-gradient(90deg, #2c4891, #3b5fc2);
             border: none;
-            border-radius: 8px;
-            color: white;
-            font-size: 16px;
+            border-radius: 12px;
+            color: #ffffff;
+            font-size: 17px;
+            font-weight: 500;
             cursor: pointer;
+            transition: all 0.25s;
         }
-        .next-btn:active{
-            background: #2d4088;
+
+        .next-btn:hover {
+            background: linear-gradient(90deg, #3557b8, #486fdd);
+            box-shadow: 0 4px 15px rgba(59, 95, 194, 0.35);
         }
-        /*最终结果页面*/
-        .result-box{
-            padding: 20px 10px;
-            line-height: 1.8;
+
+        .next-btn:active {
+            transform: scale(0.98);
         }
-        .result-box h3{
-            color: #ffbc60;
-            margin-bottom: 15px;
-            font-size: 22px;
+
+        /* 最终结局结果面板 */
+        .result-box {
+            background: rgba(18, 22, 38, 0.85);
+            border: 1px solid rgba(212, 184, 122, 0.3);
+            border-radius: 16px;
+            padding: 35px 30px;
+            margin-top: 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+            line-height: 1.9;
+        }
+
+        .result-box h3 {
+            color: #ffcc70;
+            font-size: 24px;
+            margin-bottom: 18px;
+            text-align: center;
+            text-shadow: 0 0 8px rgba(255, 204, 112, 0.25);
+        }
+
+        .result-box p {
+            font-size: 16px;
+            color: #d8dde8;
+            text-indent: 2em;
         }
     </style>
 </head>
 <body>
-    <!--实时时间显示-->
-    <div class="time-show">当前时间：<span id="now-time"></span></div>
+    <div class="container">
+        <!-- 页面标题 -->
+        <div class="header-block">
+            <h1 class="main-title">泰拉人格测试</h1>
+            <p class="sub-desc">基于矿石病、各方势力价值观的深度心理测验</p>
+        </div>
 
-    <!--加载页面-->
-    <div class="loading-box">
-        页面加载中 <span id="progress">5</span>%
+        <!-- 实时时钟 -->
+        <div class="time-show">
+            当前系统时间：<span id="now-time"></span>
+        </div>
+
+        <!-- 加载界面 -->
+        <div class="loading-box">
+            <p class="loading-text">正在解析泰拉世界数据</p>
+            <div class="progress-bar-wrap">
+                <span id="progress">5</span>%
+            </div>
+        </div>
+
+        <!-- 答题主卡片 -->
+        <div class="test-box hidden">
+            <div id="page-num" class="page-num"></div>
+            <div class="question"></div>
+            <div class="options"></div>
+            <button class="next-btn">前往下一题</button>
+        </div>
+
+        <!-- 最终结局展示区域 -->
+        <div class="result-box hidden"></div>
     </div>
 
-    <!--答题容器 默认隐藏，加载完成展示-->
-    <div class="test-box hidden">
-        <div class="page-num" id="page-num"></div>
-        <div class="question"></div>
-        <div class="options"></div>
-        <button class="next-btn">下一题</button>
-    </div>
-
-    <!--结局结果框 默认隐藏-->
-    <div class="result-box hidden"></div>
-
-    <!--引入JS文件-->
+    <!-- 引入逻辑JS，无需修改index.js -->
     <script src="index.js"></script>
+
+    <!-- 增加选项点击自动高亮激活效果，原有计分功能完全保留 -->
+    <script>
+        // 给选项添加选中样式
+        document.addEventListener("click",function(e){
+            if(e.target.classList.contains("opt-item")){
+                // 清除其他选项高亮
+                document.querySelectorAll(".opt-item").forEach(item=>{
+                    item.classList.remove("active");
+                })
+                // 当前点击选项激活高亮
+                e.target.classList.add("active");
+            }
+        })
+    </script>
 </body>
 </html>
