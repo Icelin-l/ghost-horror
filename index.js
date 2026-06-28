@@ -12,7 +12,6 @@ function updateNowTime() {
         second: '2-digit'
     });
 }
-
 // 页面一加载立刻执行一次时间
 updateNowTime();
 // 每1000毫秒(1秒)刷新一次，永久实时走时
@@ -31,7 +30,7 @@ const loadTimer = setInterval(() => {
     }
 }, 80);
 
-// 测试题目题库
+// 测试题目题库 30道明日方舟
 const questions = [
     {q:"偶然在荒野发现无人看管的源石矿点，你的第一想法是？",opt:["悄悄开采用来武装自己","上报罗德岛统一处理","留给附近穷苦的平民取用"]},
     {q:"确诊矿石病之后，你最先打算做何种选择？",opt:["隐藏身份躲避世人排挤","前往罗德岛接受正规治疗","加入整合运动反抗世俗偏见"]},
@@ -65,6 +64,9 @@ const questions = [
     {q:"长期驻守偏远的边境据点，日复一日枯燥乏味，你？",opt:["消极度日只想申请调回主城","坚守岗位认真完成每日职责","主动帮扶周边村镇的贫苦百姓"]}
 ];
 
+let currentPage = 0;
+let totalScore = 0;
+
 // 渲染题目
 function renderQuestion(){
     const item = questions[currentPage];
@@ -93,10 +95,19 @@ document.querySelector('.next-btn').onclick = function(){
         return;
     }
     currentPage++;
-    if(totalScore <= 20){
-    resultBox.innerHTML=`<h3>结局：荒野独行的求生者</h3><p>在残酷的泰拉大地里，你习惯优先保全自身，行事冷静克制，很少主动卷入纷争。你看透世间的苦难，选择独善其身，如同独行于天灾荒野的旅人，给自己筑起一道保护内心的高墙。</p>`;
-}else if(totalScore <= 40){
-    resultBox.innerHTML=`<h3>结局：罗德岛中坚干员</h3><p>你有着恰到好处的善良与理智，懂得自保也愿意伸出援手，认可罗德岛治病、消解偏见的理念。处事稳重平衡，是队伍里可靠的支柱，既能在乱世生存，也不忘善待身边的人。</p>`;
-}else{
-    resultBox.innerHTML=`<h3>结局：泰拉的悲悯理想者</h3><p>你的胸怀装下了整片泰拉的苦难，深切共情感染者、弱势种族遭受的不公。愿意为弱者让步、甚至牺牲自身利益，怀揣各族平等、终结病痛与歧视的远大理想，是这片灰暗土地里难得的温柔火种。</p>`;
+    if(currentPage >= questions.length){
+        document.querySelector('.test-box').classList.add('hidden');
+        const resultBox = document.querySelector('.result-box');
+        resultBox.classList.remove('hidden');
+        // 修复分数判断逻辑 总分0~60
+        if(totalScore <= 20){
+            resultBox.innerHTML=`<h3>结局：荒野独行的求生者</h3><p>在残酷的泰拉大地里，你习惯优先保全自身，行事冷静克制，很少主动卷入纷争。你看透世间的苦难，选择独善其身，如同独行于天灾荒野的旅人，给自己筑起一道保护内心的高墙。</p>`;
+        }else if(totalScore <= 40){
+            resultBox.innerHTML=`<h3>结局：罗德岛中坚干员</h3><p>你有着恰到好处的善良与理智，懂得自保也愿意伸出援手，认可罗德岛治病、消解偏见的理念。处事稳重平衡，是队伍里可靠的支柱，既能在乱世生存，也不忘善待身边的人。</p>`;
+        }else{
+            resultBox.innerHTML=`<h3>结局：泰拉的悲悯理想者</h3><p>你的胸怀装下了整片泰拉的苦难，深切共情感染者、弱势种族遭受的不公。愿意为弱者让步、甚至牺牲自身利益，怀揣各族平等、终结病痛与歧视的远大理想，是这片灰暗土地里难得的温柔火种。</p>`;
+        }
+        return;
+    }
+    renderQuestion();
 }
