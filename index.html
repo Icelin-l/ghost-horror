@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>记忆深处的你 | 恐怖情感测试</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- 加载同步界面 -->
+  <div class="loading-box">
+    <p>正在同步数据... <span id="progress">5%</span></p>
+    <p>当前时间:<span id="now-time">2026年6月22日</span></p>
+  </div>
+
+  <!-- 测试主容器（默认隐藏，加载完成显示） -->
+  <div class="test-box hidden">
+    <h2>记忆深处的你</h2>
+    <p>第一阶段:普通情感测试 <span id="page-num">第1题 / 共30题</span></p>
+    <div class="question"></div>
+    <div class="options"></div>
+    <button class="next-btn">下一题</button>
+  </div>
+
+  <!-- 结果页 -->
+  <div class="result-box hidden"></div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
