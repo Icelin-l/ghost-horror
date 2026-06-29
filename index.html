@@ -50,7 +50,7 @@
             width: 70%;
             height: 10px;
             background: rgba(60, 75, 110, 0.4);
-            border-radius: 999px;
+            border-radius: 99px;
             margin: 0 auto;
             overflow: hidden;
             position: relative;
@@ -59,7 +59,7 @@
             height: 100%;
             width: 5%;
             background: linear-gradient(90deg,#6288d8,#93b3ff);
-            border-radius: 999px;
+            border-radius: 99px;
             transition: width 0.1s linear;
         }
         .progress-text {
@@ -200,29 +200,44 @@
             transition:opacity 1.2s ease;
         }
         .text-line.cn{ font-size:14px; color:#aaa; }
+
+        /* 结尾独立结算页面，取消背景图，改用内部img正常加载 */
         .red-full-wrap{
             position:fixed;
             top:0;
             left:0;
             width:100vw;
             height:100vh;
-            background-image: url(https://p3-flow-image-sign.byteimg.com/tos-cn-i-a9rns2rl98/30112130399b41389d4d44d4224d3031~tplv-a9rns2rl98-image.image);
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
+            background-color: #000;
             z-index:10000;
             overflow:hidden;
             display:none;
+            display: none;
             grid-template-columns: repeat(5, 1fr);
+            padding: 20px;
+            align-content: space-around;
+            justify-items: center;
+        }
+        /* 结局配图样式，正常图片元素加载 */
+        .end-img{
+            position: absolute;
+            width: 85%;
+            max-height: 85vh;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            object-fit: contain;
         }
         .red-text-item{
-            color:#ffffff;
+            color:#8b0000;
             font-size:14px;
             font-weight:normal;
             text-align:center;
             padding:8px 0;
             opacity:0;
             animation:redFade 1s forwards;
+            position: relative;
+            z-index: 2;
         }
         @keyframes redFade{
             to{opacity:1;}
@@ -255,7 +270,12 @@
         <div class="mess-text-layer" id="messTextLayer"></div>
         <div id="textContainer"></div>
     </div>
-    <div class="red-full-wrap" id="redWrap"></div>
+
+    <!-- 结尾页面：图片为普通img标签，不再是背景 -->
+    <div class="red-full-wrap" id="redWrap">
+        <img class="end-img" src="https://p3-flow-image-sign.byteimg.com/tos-cn-i-a9rns2rl98/30112130399b41389d4d44d4224d3031~tplv-a9rns2rl98-image.image" alt="预言家插画">
+    </div>
+
     <script src="index.js"></script>
 </body>
 </html>
