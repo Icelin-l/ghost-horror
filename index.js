@@ -186,15 +186,15 @@ async function openOraclePage(){
     showEndPage();
 }
 
-// 结尾动画页面（修复变量拼写错误）
+// 结尾动画页面（修复变量错误）
 async function showEndPage(){
-    const wrap = document.getElementById("redWrap");
-    wrap.style.display = "grid";
-    const imgEl = wrap.querySelector('.end-img');
+    const wrapDom = document.getElementById("redWrap");
+    wrapDom.style.display = "grid";
+    const imgEl = wrapDom.querySelector('.end-img');
 
-    // 图片加载出错兜底
+    // 图片加载失败兜底执行文字渲染
     imgEl.onerror = ()=>{
-        renderText(wrap);
+        renderText(wrapDom);
     };
 
     // 图片淡入停留再淡出
@@ -202,7 +202,7 @@ async function showEndPage(){
     await sleep(2800);
     imgEl.style.opacity = "0";
     await sleep(1500);
-    renderText(wrap);
+    renderText(wrapDom);
 }
 
 // 生成铺满屏幕小字
