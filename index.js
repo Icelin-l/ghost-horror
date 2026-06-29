@@ -1,12 +1,10 @@
-// 实时时钟
 function updateNowTime(){
     const t = new Date();
-    document.getElementById("now-time").textContent = t.toLocaleString('zh-CN');
+    document.getElementById("now-time").textContent = t.toLocaleString();
 }
 updateNowTime();
 setInterval(updateNowTime, 1000);
 
-// 加载进度条
 let progressNum = 5;
 const pText = document.getElementById('progress');
 const pFill = document.getElementById('progress-fill');
@@ -21,7 +19,6 @@ const loadTimer = setInterval(()=>{
     }
 },80);
 
-// 30道测试题目
 const questions = [
     {q:"荒野发现无主源石矿点，你的选择？",opt:["私自开采武装自己","上报罗德岛统一处置","留给贫苦感染者取用"]},
     {q:"确诊矿石病你会？",opt:["隐瞒身份躲避歧视","前往罗德岛接受治疗","加入整合运动反抗不公"]},
@@ -41,7 +38,7 @@ const questions = [
     {q:"空闲休息更喜欢？",opt:["独自钻研源石技艺","和同事闲谈放松","病房陪伴患病干员"]},
     {q:"你如何看待源石？",opt:["纯粹灾祸应当远离","中性工具看人用法","承载文明苦难与希望"]},
     {q:"临时接管全队指挥？",opt:["推脱不愿担责","必要时统筹全局","主动扛起全队重担"]},
-    {q:"市民厌恶感染者的目光？",opt:["刻意远离人群","无视旁人眼光","科普矿石病消除偏见"]},
+    {q:"旁人厌恶感染者的目光？",opt:["刻意远离人群","无视他人眼光","科普矿石病消除偏见"]},
     {q:"根治矿石病需抹杀所有感染者？",opt:["赞同换取无病痛世界","犹豫不愿抹杀生命","坚决拒绝，众生皆有生存权"]},
     {q:"翻看干员档案最关注？",opt:["作战战绩履历","坎坷身世经历","柔软内心与执念"]},
     {q:"天灾信使邀你同行预警灾害？",opt:["婉拒不愿奔波","短途体验一次","长期同行警示民众"]},
@@ -54,12 +51,10 @@ const questions = [
     {q:"面对背负仇恨的爱国者？",opt:["心存畏惧疏远","理解遭遇但不认同极端","共情耐心开导对方"]},
     {q:"长期驻守偏远枯燥边境？",opt:["消极度日申请调走","认真完成本职工作","帮扶周边村镇贫苦百姓"]}
 ];
-
 let currentPage = 0;
 let totalScore = 0;
 let selected = false;
 
-// 渲染题目
 function renderQuestion(){
     selected = false;
     const item = questions[currentPage];
@@ -71,35 +66,34 @@ function renderQuestion(){
         div.className = "opt-item";
         div.textContent = opt;
         div.onclick = ()=>{
-            document.querySelectorAll(".opt-item").forEach(d=>d.classList.remove("active"));
-            div.classList.add("active");
+            document.querySelectorAll(".opt-item").forEach(d=>d.classListList.remove("active"));
+            div.classListList.add("active");
             selected = true;
             totalScore += idx;
         }
         optWrap.appendChild(div);
     });
-    document.getElementById('page-num').textContent = `第${currentPage+1}题 / 共${questions.length}`;
+    document.getElementById('page-num').textContent = `第${currentPage+1}题 / 共${questions.length}题`;
 }
 renderQuestion();
 
-// 下一题按钮
 document.querySelector('.next-btn').onclick = function(){
     if(!selected){
-        alert("请先选择一个答案");
+        alert("请先选择一项答案");
         return;
     }
     currentPage++;
     if(currentPage >= questions.length){
         document.querySelector('.test-box').classList.add('hidden');
         const resultBox = document.querySelector('.result-box');
-        resultBox.classList.remove('hidden');
+        resultBox.classListList.remove('hidden');
         let resText = "";
         if(totalScore <= 20){
-            resText = `<h3>荒野独行求生者</h3><p>乱世之中优先保全自身，习惯独善其身，为自己筑起坚固的内心高墙。</p>`;
+            resText = `<h3>荒野独行求生者</h3><p>乱世之中优先保全自身，习惯独来独往，给自己筑起一道坚固的心墙。</p>`;
         }else if(totalScore <= 40){
-            resText = `<h3>罗德岛中坚干员</h3><p>理智与善良互相平衡，认同罗德岛的理念，是团队里可靠的支柱。</p>`;
+            resText = `<h3>罗德岛中坚干员</h3><p>理智与善良互相平衡，认同罗德岛的理念，是队伍中可靠的支柱。</p>`;
         }else{
-            resText = `<h3>泰拉悲悯理想者</h3><p>共情世间所有苦难，愿意牺牲自身，追寻一个平等无歧视的泰拉世界。</p>`;
+            resText = `<h3>泰拉悲悯理想者</h3><p>共情世间种种苦难，愿意牺牲自身利益，追求各族平等、没有歧视的世界。</p>`;
         }
         const inputHtml = `
             <button class="restart-btn" onclick="location.reload()">重新测试</button>
@@ -117,7 +111,6 @@ document.querySelector('.next-btn').onclick = function(){
     renderQuestion();
 };
 
-// 提交身份判断
 function handleAnswerSubmit(){
     const rawVal = document.getElementById('answerInput').value.trim().replace(/\s/g,"");
     if(rawVal.includes("博士")){
@@ -129,12 +122,10 @@ function handleAnswerSubmit(){
     }
 }
 
-// 延时函数
 function sleep(ms){
     return new Promise(res=>setTimeout(res,ms));
 }
 
-// 诗句动画页面
 async function openOraclePage(){
     document.getElementById("redWrap").style.display = "none";
     document.querySelector('.result-box').classList.add('hidden');
@@ -154,11 +145,11 @@ async function openOraclePage(){
 
     const textList = [
         {en:"Even if the ocean boils away, and the atmosphere vanishes.",cn:"就算是海洋沸腾、大气消失"},
-        {en:"Even if all the moons in the sky are pulled into the vortex of our planet's gravity.",cn:"就算我们的卫星接连坠入重力的漩涡"},
-        {en:"At the far end of our civilization, I am sure we will meet again.",cn:"在那黑暗与星光点缀的文明尽头，我们终将再会"},
-        {en:"I promise you I will.",cn:"我向你保证一定会"},
-        {en:"Wait for me. You must wait for me too.",cn:"请等着我，你一定要等我"},
-        {en:"Don't ever forget about me.",cn:"不准忘记我"},
+        {en:"Even if all moons are pulled into the planet's gravitational vortex.",cn:"就算所有卫星坠入星球的引力漩涡"},
+        {en:"At the end of our civilization, I firmly believe we will meet again.",cn:"在文明的尽头，我们终将重逢"},
+        {en:"I promise this will come true.",cn:"我向你许下这份约定"},
+        {en:"Wait for me. Please wait for me always.",cn:"等着我，请一直等候我"},
+        {en:"Don't ever forget me.",cn:"不准忘记我"},
         {en:"Oracle",cn:"预言家"}
     ];
     textList.forEach(item=>{
@@ -183,25 +174,21 @@ async function openOraclePage(){
     showEndPage();
 }
 
-// 结尾页面：图片淡入→淡出→海量小字文字浮现
 async function showEndPage(){
     const wrap = document.getElementById("redWrap");
     const imgEl = wrap.querySelector('.end-img');
     wrap.style.display = "grid";
-
     // 图片淡入
     imgEl.style.opacity = "1";
     await sleep(2800);
     // 图片淡出
     imgEl.style.opacity = "0";
     await sleep(1500);
-
-    // 生成大量文字，行数大幅扩充
+    // 生成120行小号文字铺满全屏
     let textHtml = "";
-    // 循环生成120组，5列排版，全屏铺满
     for(let i = 0; i < 120; i++){
         textHtml += `<div class="red-text-item">不准忘记我！</div>`;
     }
-    // 保留图片DOM，只追加文字
-    wrap.innerHTML = `<img class="end-img" src="https://p3-flow-image-sign.byteimg.com/tos-cn-i-a9rns2rl98/30112130399b41389d4d44d4224d3031~tplv-a9rns2rl98-image.image" alt="预言家插画">` + textHtml;
+    // 动态创建图片依旧保留alt空，无多余文字
+    wrap.innerHTML = `<img class="end-img" src="./oracle_img.png" alt="">` + textHtml;
 }
