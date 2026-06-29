@@ -260,7 +260,6 @@
             cursor:pointer;
         }
 
-        /* 预言家全屏页面 */
         .oracle-page{
             position:fixed;
             top:0;
@@ -274,7 +273,6 @@
             padding:20px 10px;
         }
 
-        /* 全屏杂乱小字层 */
         .mess-text-layer{
             position:absolute;
             width:100%;
@@ -290,7 +288,6 @@
             padding:10px;
         }
 
-        /* 字符画容器 支持符号叠加 */
         .char-art-box{
             white-space: pre;
             font-family: Consolas,monospace;
@@ -304,7 +301,6 @@
             letter-spacing: 0px;
         }
 
-        /* 诗文样式 */
         .text-line{
             opacity:0;
             text-align:center;
@@ -318,24 +314,26 @@
             color:#aaa;
         }
 
-        /* 最终全屏红字页面 */
+        /* 最终白色背景 5列网格布局 */
         .red-full-wrap{
             position:fixed;
             top:0;
             left:0;
             width:100vw;
             height:100vh;
-            background:#000;
+            background:#ffffff;
             z-index:10000;
             display:none;
             overflow:hidden;
+            grid-template-columns: repeat(5, 1fr);
+            display: grid;
         }
         .red-text-item{
-            color:#ff2222;
-            font-size:32px;
-            font-weight:bold;
-            margin:10px 0;
+            color:#ff1a1a;
+            font-size:14px;
+            font-weight:normal;
             text-align:center;
+            padding:8px 0;
             opacity:0;
             animation:redFade 1s forwards;
         }
