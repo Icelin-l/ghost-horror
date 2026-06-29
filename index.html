@@ -11,7 +11,6 @@
             box-sizing: border-box;
             font-family: "Microsoft YaHei", system-ui, sans-serif;
         }
-
         body {
             background: linear-gradient(160deg, #0c0e18 0%, #171a2b 50%, #101322 100%);
             min-height: 100vh;
@@ -19,17 +18,8 @@
             padding: 40px 18px;
             overflow-x: hidden;
         }
-
-        .container {
-            max-width: 620px;
-            margin: 0 auto;
-        }
-
-        .header-block {
-            text-align: center;
-            margin-bottom: 35px;
-        }
-
+        .container { max-width: 620px; margin: 0 auto; }
+        .header-block { text-align: center; margin-bottom: 35px; }
         .main-title {
             font-size: 26px;
             color: #d4b87a;
@@ -37,12 +27,7 @@
             margin-bottom: 10px;
             text-shadow: 0 0 12px rgba(212, 184, 122, 0.3);
         }
-
-        .sub-desc {
-            font-size: 14px;
-            color: #8a94b8;
-        }
-
+        .sub-desc { font-size: 14px; color: #8a94b8; }
         .time-show {
             text-align: center;
             font-size: 15px;
@@ -53,32 +38,14 @@
             border: 1px solid rgba(90, 130, 200, 0.2);
             margin-bottom: 30px;
         }
-
-        .hidden {
-            display: none !important;
-        }
-
-        @keyframes fadeIn {
-            from {opacity: 0;}
-            to {opacity: 1;}
-        }
-        @keyframes fadeOut {
-            from {opacity: 1;}
-            to {opacity: 0;}
-        }
-
+        .hidden { display: none !important; }
+        @keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
         .loading-box {
             text-align: center;
             padding: 90px 20px;
             animation: fadeIn 0.6s ease;
         }
-
-        .loading-text {
-            font-size: 20px;
-            color: #a0aed6;
-            margin-bottom: 15px;
-        }
-
+        .loading-text { font-size: 20px; color: #a0aed6; margin-bottom: 15px; }
         .progress-bar-wrap {
             width: 70%;
             height: 10px;
@@ -88,7 +55,6 @@
             overflow: hidden;
             position: relative;
         }
-
         .progress-fill {
             height: 100%;
             width: 5%;
@@ -96,14 +62,12 @@
             border-radius: 999px;
             transition: width 0.1s linear;
         }
-
         .progress-text {
             position: absolute;
             width: 100%;
             top: -22px;
             color: #b4c8f0;
         }
-
         .test-box {
             background: rgba(22, 27, 45, 0.75);
             border: 1px solid rgba(85, 110, 165, 0.25);
@@ -113,7 +77,6 @@
             backdrop-filter: blur(8px);
             animation: fadeIn 0.5s ease;
         }
-
         .page-num {
             font-size: 14px;
             color: #949fb8;
@@ -121,21 +84,8 @@
             padding-bottom: 12px;
             border-bottom: 1px solid rgba(70, 90, 130, 0.2);
         }
-
-        .question {
-            font-size: 19px;
-            line-height: 1.8;
-            color: #f0f2f8;
-            margin-bottom: 32px;
-        }
-
-        .options {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            margin-bottom: 35px;
-        }
-
+        .question { font-size: 19px; line-height: 1.8; color: #f0f2f8; margin-bottom: 32px; }
+        .options { display: flex; flex-direction: column; gap: 16px; margin-bottom: 35px; }
         .opt-item {
             padding: 16px 20px;
             border: 1px solid rgba(75, 95, 140, 0.3);
@@ -144,67 +94,35 @@
             transition: all 0.25s ease;
             background: rgba(30, 36, 58, 0.5);
         }
-
-        .opt-item:hover {
-            border-color: #6288d8;
-            background: rgba(40, 55, 90, 0.6);
-            transform: translateY(-2px);
-        }
-
         .opt-item.active {
             border-color: #d4b87a;
             background: rgba(90, 70, 40, 0.3);
-            box-shadow: 0 0 10px rgba(212, 184, 122, 0.25);
         }
-
         .next-btn {
             width: 100%;
             padding: 16px;
             background: linear-gradient(90deg, #2c4891, #3b5fc2);
             border: none;
             border-radius: 12px;
-            color: #ffffff;
+            color: #fff;
             font-size: 17px;
-            font-weight: 500;
             cursor: pointer;
-            transition: all 0.25s;
         }
-
-        .next-btn:hover {
-            background: linear-gradient(90deg, #3557b8, #486fdd);
-            box-shadow: 0 4px 15px rgba(59, 95, 194, 0.35);
-        }
-
-        .next-btn:active {
-            transform: scale(0.98);
-        }
-
         .result-box {
             background: rgba(18, 22, 38, 0.85);
             border: 1px solid rgba(212, 184, 122, 0.3);
             border-radius: 16px;
             padding: 35px 30px;
             margin-top: 20px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-            backdrop-filter: blur(10px);
             line-height: 1.9;
             animation: fadeIn 0.5s ease;
         }
-
         .result-box h3 {
             color: #ffcc70;
             font-size: 24px;
             margin-bottom: 18px;
             text-align: center;
-            text-shadow: 0 0 8px rgba(255, 204, 112, 0.25);
         }
-
-        .result-box p {
-            font-size: 16px;
-            color: #d8dde8;
-            text-indent: 2em;
-        }
-
         .restart-btn{
             margin-top:24px;
             width:100%;
@@ -215,19 +133,7 @@
             color:#ffcc70;
             font-size:16px;
             cursor:pointer;
-            transition:0.2s;
         }
-        .restart-btn:hover{
-            background:rgba(212,184,122,0.15);
-        }
-
-        .footer-tip{
-            text-align:center;
-            margin-top:40px;
-            font-size:12px;
-            color:#666e8a;
-        }
-
         .ask-wrap{
             margin-top:25px;
             padding-top:20px;
@@ -259,7 +165,6 @@
             color:#fff;
             cursor:pointer;
         }
-
         .oracle-page{
             position:fixed;
             top:0;
@@ -272,7 +177,6 @@
             display:none;
             padding:20px 10px;
         }
-
         .mess-text-layer{
             position:absolute;
             width:100%;
@@ -287,20 +191,6 @@
             transition:opacity 1.5s ease;
             padding:10px;
         }
-
-        .char-art-box{
-            white-space: pre;
-            font-family: Consolas,monospace;
-            font-size: 2.4px;
-            line-height: 1.01;
-            color: #ffffff;
-            text-align: center;
-            margin: 18vh auto 28px auto;
-            opacity: 0;
-            transition: opacity 1.2s ease;
-            letter-spacing: 0px;
-        }
-
         .text-line{
             opacity:0;
             text-align:center;
@@ -309,27 +199,27 @@
             color:#ddd;
             transition:opacity 1.2s ease;
         }
-        .text-line.cn{
-            font-size:14px;
-            color:#aaa;
-        }
-
-        /* 最终白色背景 5列网格布局 */
+        .text-line.cn{ font-size:14px; color:#aaa; }
+        /* 最终页面：背景为预言家原图，5列网格，文字白色 */
         .red-full-wrap{
             position:fixed;
             top:0;
             left:0;
             width:100vw;
             height:100vh;
-            background:#ffffff;
+            /* 替换为目标图片背景，全屏覆盖 */
+            background-image: url(https://p3-flow-image-sign.byteimg.com/tos-cn-i-a9rns2rl98/30112130399b41389d4d44d4224d3031~tplv-a9rns2rl98-image.image);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
             z-index:10000;
             display:none;
             overflow:hidden;
-            grid-template-columns: repeat(5, 1fr);
             display: grid;
+            grid-template-columns: repeat(5, 1fr);
         }
         .red-text-item{
-            color:#ff1a1a;
+            color:#ffffff;
             font-size:14px;
             font-weight:normal;
             text-align:center;
@@ -345,41 +235,31 @@
 <body>
     <div class="container">
         <div class="header-block">
-            <h1 class="main-title">心理测验</h1>
-            <p class="sub-desc">基于矿石病、各方势力价值观的深度心理测验</p>
+            <h1 class="main-title">罗德岛入职测试</h1>
+            <p class="sub-desc">泰拉世界观心理测验</p>
         </div>
-
-        <div class="time-show">
-            当前系统时间：<span id="now-time"></span>
-        </div>
-
+        <div class="time-show">当前系统时间：<span id="now-time"></span></div>
         <div class="loading-box">
-            <p class="loading-text">正在解析泰拉世界数据</p>
+            <p class="loading-text">正在解析罗德岛数据</p>
             <div class="progress-bar-wrap">
                 <div class="progress-fill" id="progress-fill"></div>
                 <span class="progress-text" id="progress">5</span>%
             </div>
         </div>
-
         <div class="test-box hidden">
             <div id="page-num" class="page-num"></div>
             <div class="question"></div>
             <div class="options"></div>
             <button class="next-btn">前往下一题</button>
         </div>
-
         <div class="result-box hidden"></div>
-        <div class="footer-tip">心理测试 · 共30道题目</div>
     </div>
-
+    <!-- 移除字符画容器 charArtBox -->
     <div class="oracle-page" id="oraclePage">
         <div class="mess-text-layer" id="messTextLayer"></div>
-        <div class="char-art-box" id="charArtBox"></div>
         <div id="textContainer"></div>
     </div>
-
     <div class="red-full-wrap" id="redWrap"></div>
-
     <script src="index.js"></script>
 </body>
 </html>
