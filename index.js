@@ -83,7 +83,7 @@ function renderQuestion(){
         }
         optionWrap.appendChild(div);
     })
-    document.getElementById('page-num').textContent = `第${currentPage+1}题 / 共${questions.length}题`;
+    document.getElementById('page-num').textContent = `第${currentPage+1}题 / 共${questions.length}`;
 }
 renderQuestion();
 
@@ -99,14 +99,149 @@ document.querySelector('.next-btn').onclick = function(){
         const resultBox = document.querySelector('.result-box');
         resultBox.classList.remove('hidden');
 
+        // 结算页面新增输入模块
+        let inputHtml = `
+            <button class="restart-btn" onclick="location.reload()">重新进行测试</button>
+            <div class="ask-wrap">
+                <p class="ask-title">你是谁？</p>
+                <input type="text" id="answerInput" placeholder="在此输入你的身份">
+                <button id="submitAnswer">提交</button>
+            </div>
+        `;
+
         if(totalScore <= 20){
-            resultBox.innerHTML=`<h3>结局：荒野独行的求生者</h3><p>在残酷的泰拉大地里，你习惯优先保全自身，行事冷静克制，很少主动卷入纷争。你看透世间的苦难，选择独善其身，如同独行于天灾荒野的旅人，给自己筑起一道保护内心的高墙。</p><button class="restart-btn" onclick="location.reload()">重新进行测试</button>`;
+            resultBox.innerHTML=`<h3>结局：荒野独行的求生者</h3><p>在残酷的泰拉大地里，你习惯优先保全自身，行事冷静克制，很少主动卷入纷争。你看透世间的苦难，选择独善其身，如同独行于天灾荒野的旅人，给自己筑起一道保护内心的高墙。</p>`+inputHtml;
         }else if(totalScore <= 40){
-            resultBox.innerHTML=`<h3>结局：罗德岛中坚干员</h3><p>你有着恰到好处的善良与理智，懂得自保也愿意伸出援手，认可罗德岛治病、消解偏见的理念。处事稳重平衡，是队伍里可靠的支柱，既能在乱世生存，也不忘善待身边的人。</p><button class="restart-btn" onclick="location.reload()">重新进行测试</button>`;
+            resultBox.innerHTML=`<h3>结局：罗德岛中坚干员</h3><p>你有着恰到好处的善良与理智，懂得自保也愿意伸出援手，认可罗德岛治病、消解偏见的理念。处事稳重平衡，是队伍里可靠的支柱，既能在乱世生存，也不忘善待身边的人。</p>`+inputHtml;
         }else{
-            resultBox.innerHTML=`<h3>结局：泰拉的悲悯理想者</h3><p>你的胸怀装下了整片泰拉的苦难，深切共情感染者、弱势种族遭受的不公。愿意为弱者让步、甚至牺牲自身利益，怀揣各族平等、终结病痛与歧视的远大理想，是这片灰暗土地里难得的温柔火种。</p><button class="restart-btn" onclick="location.reload()">重新进行测试</button>`;
+            resultBox.innerHTML=`<h3>结局：泰拉的悲悯理想者</h3><p>你的胸怀装下了整片泰拉的苦难，深切共情感染者、弱势种族遭受的不公。愿意为弱者让步、甚至牺牲自身利益，怀揣各族平等、终结病痛与歧视的远大理想，是这片灰暗土地里难得的温柔火种。</p>`+inputHtml;
         }
+
+        // 绑定提交按钮事件
+        setTimeout(()=>{
+            const submitBtn = document.getElementById('submitAnswer');
+            submitBtn.onclick = handleAnswerSubmit;
+        },100);
         return;
     }
     renderQuestion();
+}
+
+// 处理身份提交逻辑
+function handleAnswerSubmit(){
+    const inputVal = document.getElementById('answerInput').value.trim();
+    if(inputVal.includes("博士")){
+        alert("你仍在逃避");
+    }else if(inputVal.includes("预言家")){
+        openOraclePage();
+    }else{
+        alert("PRTS无响应");
+    }
+}
+
+// 打开预言家专属页面，点阵绘图+文字动画
+function openOraclePage(){
+    const oraclePage = document.getElementById("oraclePage");
+    oraclePage.style.display = "block";
+    // 点阵绘制图片
+    drawDotImage();
+    // 逐行浮现文字
+    showTextLines();
+}
+
+// 点阵画布绘制传入的预言家图片
+function drawDotImage(){
+    const canvas = document.getElementById("dotCanvas");
+    const ctx = canvas.getContext("2d");
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    // 图片直链（你提供的预言家插画）
+    img.src = "https://p3-flow-image-sign.byteimg.com/tos-cn-i-a9rns2rl98/3002f00f9394401892442f34d24d0311~tplv-a9rns2rl98-image.image";
+    img.onload = ()=>{
+        // 画布尺寸适配图片
+        canvas.width = img.width / 4;
+        canvas.height = img.height / 4;
+        ctx.fillStyle = "#000";
+        ctx.fillRect(0,0,canvas.width,canvas.height);
+        // 缩小绘制原图
+        ctx.drawImage(img,0,0,canvas.width,canvas.height);
+        const imgData = ctx.getImageData(0,0,canvas.width,canvas.height);
+        ctx.fillStyle = "#fff";
+        ctx.fillRect(0,0,canvas.width,canvas.height);
+        ctx.fillStyle = "#000";
+        // 点阵采样绘制
+        const dotSize = 2;
+        for(let y=0;y<imgData.height;y+=dotSize){
+            for(let x=0;x<imgData.width;x+=dotSize){
+                const idx = (y * imgData.width + x) * 4;
+                const r = imgData.data[idx];
+                const g = imgData.data[idx+1];
+                const b = imgData.data[idx+2];
+                const brightness = (r+g+b)/3;
+                if(brightness < 120){
+                    ctx.fillRect(x,y,dotSize-0.5,dotSize-0.5);
+                }
+            }
+        }
+    }
+}
+
+// 需要逐行展示的文案
+const textList = [
+    {en:"Even if the ocean boils away, and the atmosphere vanishes.",cn:"就算是海洋沸腾、大气消失"},
+    {en:"Even if all the moons in the sky are pulled into the vortex of our planet's gravity.",cn:"就算我们的卫星接连坠入重力的漩涡"},
+    {en:"At the far end of our civilization, I am sure we will meet again.",cn:"在那用黑暗与星点光芒装饰过的文明尽头，我们也一样会再见面。"},
+    {en:"I promise you I will.",cn:"一定。"},
+    {en:"Wait for me. You must wait for me too.",cn:"等我。你也要等我。"},
+    {en:"Don't ever forget about me.",cn:"不准忘记我"},
+    {en:"Oracle",cn:"预言家"}
+];
+
+// 文字逐行浮现、整体淡出，最后切全屏红字
+async function showTextLines(){
+    const container = document.getElementById("textContainer");
+    container.innerHTML = "";
+    // 创建所有文字行
+    textList.forEach(item=>{
+        const enDiv = document.createElement("div");
+        enDiv.className = "text-line en";
+        enDiv.textContent = item.en;
+        const cnDiv = document.createElement("div");
+        cnDiv.className = "text-line cn";
+        cnDiv.textContent = item.cn;
+        container.appendChild(enDiv);
+        container.appendChild(cnDiv);
+    });
+    const lines = document.querySelectorAll(".text-line");
+    // 逐行淡入
+    for(let i=0;i<lines.length;i++){
+        await sleep(1100);
+        lines[i].style.opacity = "1";
+    }
+    // 全部显示完成，等待3秒后整体淡出
+    await sleep(3000);
+    lines.forEach(line=>{
+        line.style.transition = "opacity 2s ease";
+        line.style.opacity = "0";
+    });
+    await sleep(2200);
+    // 跳转全屏红字页面
+    showFullRedText();
+}
+
+// 生成满屏重复“不准忘记我”红字
+function showFullRedText(){
+    const redWrap = document.getElementById("redWrap");
+    redWrap.style.display = "block";
+    // 生成多行重复文字
+    let html = "";
+    for(let i=0;i<40;i++){
+        html += `<div class="red-text-item" style="animation-delay:${i*0.08}s">不准忘记我</div>`;
+    }
+    redWrap.innerHTML = html;
+}
+
+// 延时工具函数
+function sleep(ms){
+    return new Promise(res=>setTimeout(res,ms));
 }
