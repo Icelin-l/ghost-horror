@@ -17,6 +17,7 @@
             min-height: 100vh;
             color: #e6e9f2;
             padding: 40px 18px;
+            overflow-x: hidden;
         }
 
         .container {
@@ -57,21 +58,27 @@
             display: none !important;
         }
 
-        /* 修复进度条完整样式 */
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+        @keyframes fadeOut {
+            from {opacity: 1;}
+            to {opacity: 0;}
+        }
+
         .loading-box {
             text-align: center;
             padding: 90px 20px;
             animation: fadeIn 0.6s ease;
         }
-        @keyframes fadeIn {
-            from {opacity:0;}
-            to {opacity:1;}
-        }
+
         .loading-text {
             font-size: 20px;
             color: #a0aed6;
             margin-bottom: 15px;
         }
+
         .progress-bar-wrap {
             width: 70%;
             height: 10px;
@@ -81,7 +88,7 @@
             overflow: hidden;
             position: relative;
         }
-        /* 新增进度填充层 */
+
         .progress-fill {
             height: 100%;
             width: 5%;
@@ -89,6 +96,7 @@
             border-radius: 999px;
             transition: width 0.1s linear;
         }
+
         .progress-text {
             position: absolute;
             width: 100%;
@@ -196,7 +204,7 @@
             color: #d8dde8;
             text-indent: 2em;
         }
-        /* 重新测试按钮 */
+
         .restart-btn{
             margin-top:24px;
             width:100%;
@@ -212,18 +220,107 @@
         .restart-btn:hover{
             background:rgba(212,184,122,0.15);
         }
+
         .footer-tip{
             text-align:center;
             margin-top:40px;
             font-size:12px;
             color:#666e8a;
         }
+
+        /* 结算页输入框模块 */
+        .ask-wrap{
+            margin-top:25px;
+            padding-top:20px;
+            border-top:1px solid rgba(212,184,122,0.2);
+        }
+        .ask-title{
+            font-size:12px;
+            color:#aaa;
+            margin-bottom:10px;
+            text-align:center;
+        }
+        #answerInput{
+            width:100%;
+            padding:12px 15px;
+            border-radius:10px;
+            background:rgba(30,36,58,0.6);
+            border:1px solid rgba(90,130,200,0.3);
+            color:#fff;
+            font-size:15px;
+            outline:none;
+        }
+        #submitAnswer{
+            width:100%;
+            margin-top:12px;
+            padding:12px;
+            border-radius:10px;
+            border:none;
+            background:#445cad;
+            color:#fff;
+            cursor:pointer;
+        }
+
+        /* 预言家专属页面 */
+        .oracle-page{
+            position:fixed;
+            top:0;
+            left:0;
+            width:100vw;
+            height:100vh;
+            background:#000;
+            z-index:9999;
+            padding:30px 15px;
+            overflow:auto;
+            display:none;
+        }
+        .dot-canvas{
+            display:block;
+            margin:0 auto 30px;
+            max-width:100%;
+        }
+        .text-line{
+            opacity:0;
+            text-align:center;
+            margin:12px 0;
+            font-size:17px;
+            color:#ddd;
+            transition:opacity 1.2s ease;
+        }
+        .text-line.cn{
+            font-size:14px;
+            color:#aaa;
+        }
+        /* 全屏红字收尾 */
+        .red-full-wrap{
+            position:fixed;
+            top:0;
+            left:0;
+            width:100vw;
+            height:100vh;
+            background:#000;
+            z-index:10000;
+            display:none;
+            overflow:hidden;
+        }
+        .red-text-item{
+            color:#ff2222;
+            font-size:32px;
+            font-weight:bold;
+            margin:10px 0;
+            text-align:center;
+            opacity:0;
+            animation:redFade 1s forwards;
+        }
+        @keyframes redFade{
+            to{opacity:1;}
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header-block">
-            <h1 class="main-title">罗德岛预备干员心理测试</h1>
+            <h1 class="main-title">心理测验</h1>
             <p class="sub-desc">基于矿石病、各方势力价值观的深度心理测验</p>
         </div>
 
@@ -231,7 +328,6 @@
             当前系统时间：<span id="now-time"></span>
         </div>
 
-        <!-- 修复进度条DOM结构 -->
         <div class="loading-box">
             <p class="loading-text">正在解析泰拉世界数据</p>
             <div class="progress-bar-wrap">
@@ -250,9 +346,18 @@
         <div class="result-box hidden"></div>
 
         <div class="footer-tip">
-            泰拉心理测试 · 共30道题目
+            心理测试 · 共30道题目
         </div>
     </div>
+
+    <!-- 预言家独立页面 -->
+    <div class="oracle-page" id="oraclePage">
+        <canvas class="dot-canvas" id="dotCanvas"></canvas>
+        <div class="text-container" id="textContainer"></div>
+    </div>
+
+    <!-- 全屏红字页面 -->
+    <div class="red-full-wrap" id="redWrap"></div>
 
     <script src="index.js"></script>
 
