@@ -55,6 +55,7 @@ let currentPage = 0;
 let totalScore = 0;
 let selected = false;
 
+// 修复选中BUG：修正classList语法错误
 function renderQuestion(){
     selected = false;
     const item = questions[currentPage];
@@ -66,10 +67,14 @@ function renderQuestion(){
         div.className = "opt-item";
         div.textContent = opt;
         div.onclick = ()=>{
-            document.querySelectorAll(".opt-item").forEach(d=>d.classListList.remove("active"));
-            div.classListList.add("active");
+            // 清除所有选项active
+            document.querySelectorAll(".opt-item").forEach(d=>{
+                d.classList.remove("active");
+            });
+            // 给当前点击添加选中
+            div.classList.add("active");
             selected = true;
-            totalScore += idx;
+            totalScore = totalScore + idx;
         }
         optWrap.appendChild(div);
     });
@@ -174,21 +179,29 @@ async function openOraclePage(){
     showEndPage();
 }
 
+// 图片加载失败自动跳过，不会卡死动画
 async function showEndPage(){
     const wrap = document.getElementById("redWrap");
-    const imgEl = wrap.querySelector('.end-img');
     wrap.style.display = "grid";
-    // 图片淡入
+    const imgEl = wrap.querySelector('.end-img');
+
+    // 加载失败直接渲染文字
+    imgEl.onerror = function(){
+        renderTextContent(wrap);
+    }
+
     imgEl.style.opacity = "1";
     await sleep(2800);
-    // 图片淡出
     imgEl.style.opacity = "0";
     await sleep(1500);
-    // 生成120行小号文字铺满全屏
+    renderTextContent(wrap);
+}
+
+// 渲染铺满屏幕文字
+function renderTextContent(wrapDom){
     let textHtml = "";
     for(let i = 0; i < 120; i++){
         textHtml += `<div class="red-text-item">不准忘记我！</div>`;
     }
-    // 动态创建图片依旧保留alt空，无多余文字
-    wrap.innerHTML = `<img class="end-img" src="./oracle_img.png" alt="">` + textHtml;
+    wrapDom.innerHTML = `<img class="end-img" src="./oracle_img.png" alt="">` + textHtml;
 }
