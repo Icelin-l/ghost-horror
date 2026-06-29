@@ -165,7 +165,6 @@
             color:#fff;
             cursor:pointer;
         }
-        /* 弹窗页面：默认完全隐藏，不会遮挡页面 */
         .oracle-page{
             position:fixed;
             top:0;
@@ -201,8 +200,6 @@
             transition:opacity 1.2s ease;
         }
         .text-line.cn{ font-size:14px; color:#aaa; }
-
-        /* 最终结尾页面，修复重复display冲突 */
         .red-full-wrap{
             position:fixed;
             top:0;
@@ -254,13 +251,11 @@
         </div>
         <div class="result-box hidden"></div>
     </div>
-
     <div class="oracle-page" id="oraclePage">
         <div class="mess-text-layer" id="messTextLayer"></div>
         <div id="textContainer"></div>
     </div>
     <div class="red-full-wrap" id="redWrap"></div>
-
     <script src="index.js"></script>
 </body>
 </html>
