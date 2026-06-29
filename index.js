@@ -1,35 +1,31 @@
-// 实时更新页面时间函数
+// 实时时钟更新
 function updateNowTime() {
     const timeBox = document.getElementById("now-time");
-    const currentTime = new Date();
-    timeBox.textContent = currentTime.toLocaleString('zh-CN', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit'
+    const now = new Date();
+    timeBox.textContent = now.toLocaleString('zh-CN',{
+        year:'numeric',month:'2-digit',day:'2-digit',
+        hour:'2-digit',minute:'2-digit',second:'2-digit'
     });
 }
 updateNowTime();
-setInterval(updateNowTime, 1000);
+setInterval(updateNowTime,1000);
 
-// 加载进度逻辑 同步进度条宽度
+// 加载进度动画
 let progressNum = 5;
 const progressDom = document.getElementById('progress');
 const progressFill = document.getElementById('progress-fill');
-const loadTimer = setInterval(() => {
+const loadTimer = setInterval(()=>{
     progressNum++;
     progressDom.textContent = progressNum + '%';
     progressFill.style.width = progressNum + '%';
-    if (progressNum >= 100) {
+    if(progressNum >= 100){
         clearInterval(loadTimer);
         document.querySelector('.loading-box').classList.add('hidden');
         document.querySelector('.test-box').classList.remove('hidden');
     }
-}, 80);
+},80);
 
-// 30道明日方舟泰拉测试题库
+// 30道测试题库
 const questions = [
     {q:"偶然在荒野发现无人看管的源石矿点，你的第一想法是？",opt:["悄悄开采用来武装自己","上报罗德岛统一处理","留给附近穷苦的平民取用"]},
     {q:"确诊矿石病之后，你最先打算做何种选择？",opt:["隐藏身份躲避世人排挤","前往罗德岛接受正规治疗","加入整合运动反抗世俗偏见"]},
@@ -66,23 +62,24 @@ const questions = [
 let currentPage = 0;
 let totalScore = 0;
 
-// 渲染题目函数
+// 渲染题目
 function renderQuestion(){
     const item = questions[currentPage];
     document.querySelector('.question').textContent = item.q;
-    const optionWrap = document.querySelector('.options');
-    optionWrap.innerHTML = "";
-
-    item.opt.forEach((option,idx)=>{
+    const optWrap = document.querySelector('.options');
+    optWrap.innerHTML = "";
+    item.opt.forEach((opt,idx)=>{
         const div = document.createElement("div");
         div.className = "opt-item";
-        div.textContent = option;
+        div.textContent = opt;
         div.onclick = ()=>{
             totalScore += idx;
             document.querySelector('.next-btn').dataset.canNext = "1";
+            document.querySelectorAll(".opt-item").forEach(d=>d.classList.remove("active"));
+            div.classList.add("active");
         }
-        optionWrap.appendChild(div);
-    })
+        optWrap.appendChild(div);
+    });
     document.getElementById('page-num').textContent = `第${currentPage+1}题 / 共${questions.length}`;
 }
 renderQuestion();
@@ -98,9 +95,7 @@ document.querySelector('.next-btn').onclick = function(){
         document.querySelector('.test-box').classList.add('hidden');
         const resultBox = document.querySelector('.result-box');
         resultBox.classList.remove('hidden');
-
-        // 结算页面新增输入模块
-        let inputHtml = `
+        const inputHtml = `
             <button class="restart-btn" onclick="location.reload()">重新进行测试</button>
             <div class="ask-wrap">
                 <p class="ask-title">你是谁？</p>
@@ -108,140 +103,162 @@ document.querySelector('.next-btn').onclick = function(){
                 <button id="submitAnswer">提交</button>
             </div>
         `;
-
         if(totalScore <= 20){
-            resultBox.innerHTML=`<h3>结局：荒野独行的求生者</h3><p>在残酷的泰拉大地里，你习惯优先保全自身，行事冷静克制，很少主动卷入纷争。你看透世间的苦难，选择独善其身，如同独行于天灾荒野的旅人，给自己筑起一道保护内心的高墙。</p>`+inputHtml;
+            resultBox.innerHTML = `<h3>结局：荒野独行的求生者</h3><p>在残酷的泰拉大地里，你习惯优先保全自身，行事冷静克制，很少主动卷入纷争。你看透世间的苦难，选择独善其身，如同独行于天灾荒野的旅人，给自己筑起一道保护内心的高墙。</p>` + inputHtml;
         }else if(totalScore <= 40){
-            resultBox.innerHTML=`<h3>结局：罗德岛中坚干员</h3><p>你有着恰到好处的善良与理智，懂得自保也愿意伸出援手，认可罗德岛治病、消解偏见的理念。处事稳重平衡，是队伍里可靠的支柱，既能在乱世生存，也不忘善待身边的人。</p>`+inputHtml;
+            resultBox.innerHTML = `<h3>结局：罗德岛中坚干员</h3><p>你有着恰到好处的善良与理智，懂得自保也愿意伸出援手，认可罗德岛治病、消解偏见的理念。处事稳重平衡，是队伍里可靠的支柱，既能在乱世生存，也不忘善待身边的人。</p>` + inputHtml;
         }else{
-            resultBox.innerHTML=`<h3>结局：泰拉的悲悯理想者</h3><p>你的胸怀装下了整片泰拉的苦难，深切共情感染者、弱势种族遭受的不公。愿意为弱者让步、甚至牺牲自身利益，怀揣各族平等、终结病痛与歧视的远大理想，是这片灰暗土地里难得的温柔火种。</p>`+inputHtml;
+            resultBox.innerHTML = `<h3>结局：泰拉的悲悯理想者</h3><p>你的胸怀装下了整片泰拉的苦难，深切共情感染者、弱势种族遭受的不公。愿意为弱者让步、甚至牺牲自身利益，怀揣各族平等、终结病痛与歧视的远大理想，是这片灰暗土地里难得的温柔火种。</p>` + inputHtml;
         }
-
-        // 绑定提交按钮事件
         setTimeout(()=>{
-            const submitBtn = document.getElementById('submitAnswer');
-            submitBtn.onclick = handleAnswerSubmit;
+            document.getElementById('submitAnswer').onclick = handleAnswerSubmit;
         },100);
         return;
     }
     renderQuestion();
 }
 
-// 处理身份提交逻辑
+// 提交答案判断
 function handleAnswerSubmit(){
-    const inputVal = document.getElementById('answerInput').value.trim();
-    if(inputVal.includes("博士")){
+    const val = document.getElementById('answerInput').value.trim();
+    if(val.includes("博士")){
         alert("你仍在逃避");
-    }else if(inputVal.includes("预言家")){
+    }else if(val.includes("预言家")){
         openOraclePage();
     }else{
         alert("PRTS无响应");
     }
 }
 
-// 打开预言家专属页面，点阵绘图+文字动画
-function openOraclePage(){
-    const oraclePage = document.getElementById("oraclePage");
-    oraclePage.style.display = "block";
-    // 点阵绘制图片
-    drawDotImage();
-    // 逐行浮现文字
-    showTextLines();
+// 延时封装函数
+function sleep(ms){
+    return new Promise(resolve=>setTimeout(resolve,ms));
 }
 
-// 点阵画布绘制传入的预言家图片
-function drawDotImage(){
-    const canvas = document.getElementById("dotCanvas");
-    const ctx = canvas.getContext("2d");
-    const img = new Image();
-    img.crossOrigin = "anonymous";
-    // 图片直链（你提供的预言家插画）
-    img.src = "https://p3-flow-image-sign.byteimg.com/tos-cn-i-a9rns2rl98/3002f00f9394401892442f34d24d0311~tplv-a9rns2rl98-image.image";
-    img.onload = ()=>{
-        // 画布尺寸适配图片
-        canvas.width = img.width / 4;
-        canvas.height = img.height / 4;
-        ctx.fillStyle = "#000";
-        ctx.fillRect(0,0,canvas.width,canvas.height);
-        // 缩小绘制原图
-        ctx.drawImage(img,0,0,canvas.width,canvas.height);
-        const imgData = ctx.getImageData(0,0,canvas.width,canvas.height);
-        ctx.fillStyle = "#fff";
-        ctx.fillRect(0,0,canvas.width,canvas.height);
-        ctx.fillStyle = "#000";
-        // 点阵采样绘制
-        const dotSize = 2;
-        for(let y=0;y<imgData.height;y+=dotSize){
-            for(let x=0;x<imgData.width;x+=dotSize){
-                const idx = (y * imgData.width + x) * 4;
-                const r = imgData.data[idx];
-                const g = imgData.data[idx+1];
-                const b = imgData.data[idx+2];
-                const brightness = (r+g+b)/3;
-                if(brightness < 120){
-                    ctx.fillRect(x,y,dotSize-0.5,dotSize-0.5);
-                }
-            }
-        }
+// 预言家页面完整执行流程
+async function openOraclePage(){
+    const page = document.getElementById("oraclePage");
+    page.style.display = "block";
+    const messLayer = document.getElementById("messTextLayer");
+    const charBox = document.getElementById("charArtBox");
+    const textContainer = document.getElementById("textContainer");
+    textContainer.innerHTML = "";
+
+    // 1.生成全屏杂乱符号文字
+    const symbolPool = ['，','！','。','-','（','）','/','■',':','_','~',';','·','*','+','░','▒','▓','░','█','○','◎','◇','◆','●'];
+    let messContent = "";
+    for(let i = 0; i < 15000; i++){
+        let randSym = symbolPool[Math.floor(Math.random() * symbolPool.length)];
+        messContent += randSym;
     }
-}
+    messLayer.innerText = messContent;
+    messLayer.style.opacity = "1";
+    await sleep(3500);
 
-// 需要逐行展示的文案
-const textList = [
-    {en:"Even if the ocean boils away, and the atmosphere vanishes.",cn:"就算是海洋沸腾、大气消失"},
-    {en:"Even if all the moons in the sky are pulled into the vortex of our planet's gravity.",cn:"就算我们的卫星接连坠入重力的漩涡"},
-    {en:"At the far end of our civilization, I am sure we will meet again.",cn:"在那用黑暗与星点光芒装饰过的文明尽头，我们也一样会再见面。"},
-    {en:"I promise you I will.",cn:"一定。"},
-    {en:"Wait for me. You must wait for me too.",cn:"等我。你也要等我。"},
-    {en:"Don't ever forget about me.",cn:"不准忘记我"},
-    {en:"Oracle",cn:"预言家"}
-];
+    // 2.隐藏乱码，加载扩充叠加式高精度字符画
+    messLayer.style.opacity = "0";
+    const artText = `
+                                                                                                    
+                                                                                            , . ' , .
+                                                                                        . , : ~ - : ' , .
+                                                                                    ' ; ~ · - + ; : , '
+                                                                                ; : ~ - ° • + ░ , ;
+                                                                        . ' ` ░▒▓████▓▒░ ` ' .
+                                                                    , ' ░▒▓█████████▓▒░ ' ,
+                                                                  ; : ░▒▓████████████▓▒░ : ;
+                                                                ~ - ░▒▓███■■■■■■███▓▒░ - ~
+                                                              = + ░▒▓██■●●●●●●●●■██▓▒░ + =
+                                                            * ^ ░▒▓██■●●○○○○○○○●■██▓▒░ ^ *
+                                                          ` " ░▒▓██■●●○◎◎◎◎◎○○●■██▓▒░ " `
+                                                         ' , ░▒▓██■●●○◎◎◇◇◎◎○●■██▓▒░ , '
+                                                        . ; ░▒▓██■●●○◎◎◇◆◆◇◎○●■██▓▒░ ; .
+                                                       : ~ ░▒▓██■●●○◎◎◇■■◇◎○●■██▓▒░ ~ :
+                                                      - = ░▒▓██■●●○◎◎◇■■◇◎○●■██▓▒░ = -
+                                                     + * ░▒▓██■●●○◎◎◇■■◇◎○●■██▓▒░ * +
+                                                    ^ ` ░▒▓██■●●○◎◎◇■■◇◎○●■██▓▒░ ` ^
+                                                   " ' ░▒▓██■●●○◎◎◇■■◇◎○●■██▓▒░ ' "
+                                                  , . ░▒▓██■●●○◎◎◇■■◇◎○●■██▓▒░ . ,
+                                                 ; : ░▒▓██■●●○◎◎◇■■◇◎○●■██▓▒░ : ;
+                                                ~ - ░▒▓██■●●○◎◎◇■■◇◎○●■██▓▒░ - ~
+                                               ≈ ∓ ░▒▓███■●●○◎◎◇■■◇◎○●████▓▒░ ∓ ≈
+                                              ± × ░▒▓████■●●○◎◎◇■■◇◎○●████▓▒░ × ±
+                                             ÷ § ░▒▓██████●●○◎◎◇■◇◎○●●██████▓▒░ § ÷
+                                            ¶ • ░▒▓████████●●○◎◎◇■◇◎○●●████████▓▒░ • ¶
+                                           ¤ ° ░▒▓██████████●●○◎◇◎○●●██████████▓▒░ ° ¤
+                                          ′ ″ ░▒▓████████████●●○○●●████████████▓▒░ ″ ′
+                                         ░▒▓██████████████████●●██████████████████▓▒░
+                                        ▒▓███████████████████████████████████████▓▒
+                                       ▓█████████████████████████████████████████▓
+                        , ' : ~ - ░▓███████████████████████████████████████████████
+                     , . ; : ~ - ░▓███░░░▒▓███████████████████████████████████████
+                   ' , ; ~ - : . , ░▓██░░░░░▒▓████████████████████████████████████
+                 . ' ; : ~ - , ' ░▓██░░░░░░░▒▓███████████████████████████████████
+                , ' ; ~ - : . ░▓██░░░░░░░░░▒▓██████████████████████████████████
+               , . ; : ~ - ░▓██░░░░░░░░░░░▒▓██████████████████████████████████
+              , ' ; ~ - : ░▓██░░░░░░░░░░░░░▒▓███████████████████████████████
+             , . ; : ~ ░▓██░░░░░░░░░░░░░░░▒▓███████████████████████████████
+            , ' ; ~ - ░▓██░░░░░░░░░░░░░░░░░▒▓██████████████████████████████
+           , . ; : ~ ░▓██░░░░░░░░░░░░░░░░░░░▒▓█████████████████████████████
+          , ' ; ~ - ░▓██░░░░░░░░░░░░░░░░░░░░░▒▓████████████████████████████
+         , . ; : ~ ░▓██░░░░░░░░░░░░░░░░░░░░░░░▒▓███████████████████████████
+        , ' ; ~ - ░▓██░░░░░░░░░░░░░░░░░░░░░░░░░▒▓██████████████████████████
+       , . ; : ~ ░▓██░░░░░░░░░░░░░░░░░░░░░░░░░░░▒▓█████████████████████████
+      , ' ; ~ - ░▓██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░▒▓████████████████████████
+     , . ; : ~ ░▓██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░▒▓███████████████████████
+    , . ' ; ~ - : ░▓██████████████████████████████████████████████████████
+   , ' . ; : ~ - ░▓████████████████████████████████████████████████████████
+  , ' , . ; : ~ ░▓█████████████████████████████████████████████████████████
+ , ' , . , ; : ░▓██████████████████████████████████████████████████████████
+, ' , . , ' ; ░▓███████████████████████████████████████████████████████████
+`;
+    charBox.textContent = artText;
+    charBox.style.opacity = "1";
+    await sleep(3000);
 
-// 文字逐行浮现、整体淡出，最后切全屏红字
-async function showTextLines(){
-    const container = document.getElementById("textContainer");
-    container.innerHTML = "";
-    // 创建所有文字行
+    // 3.逐行展示中英文案
+    const textList = [
+        {en:"Even if the ocean boils away, and the atmosphere vanishes.",cn:"就算是海洋沸腾、大气消失"},
+        {en:"Even if all the moons in the sky are pulled into the vortex of our planet's gravity.",cn:"就算我们的卫星接连坠入重力的漩涡"},
+        {en:"At the far end of our civilization, I am sure we will meet again.",cn:"在那用黑暗与星点光芒装饰过的文明尽头，我们也一样会再见面。"},
+        {en:"I promise you I will.",cn:"一定。"},
+        {en:"Wait for me. You must wait for me too.",cn:"等我。你也要等我。"},
+        {en:"Don't ever forget about me.",cn:"不准忘记我"},
+        {en:"Oracle",cn:"预言家"}
+    ];
     textList.forEach(item=>{
-        const enDiv = document.createElement("div");
+        let enDiv = document.createElement("div");
         enDiv.className = "text-line en";
         enDiv.textContent = item.en;
-        const cnDiv = document.createElement("div");
+        let cnDiv = document.createElement("div");
         cnDiv.className = "text-line cn";
         cnDiv.textContent = item.cn;
-        container.appendChild(enDiv);
-        container.appendChild(cnDiv);
+        textContainer.appendChild(enDiv);
+        textContainer.appendChild(cnDiv);
     });
     const lines = document.querySelectorAll(".text-line");
-    // 逐行淡入
-    for(let i=0;i<lines.length;i++){
+    for(let i = 0; i < lines.length; i++){
         await sleep(1100);
         lines[i].style.opacity = "1";
     }
-    // 全部显示完成，等待3秒后整体淡出
     await sleep(3000);
-    lines.forEach(line=>{
-        line.style.transition = "opacity 2s ease";
-        line.style.opacity = "0";
+
+    // 文案整体淡出
+    lines.forEach(li=>{
+        li.style.opacity = "0";
     });
     await sleep(2200);
-    // 跳转全屏红字页面
-    showFullRedText();
+
+    // 4.弹出全屏重复红字
+    showFullRed();
 }
 
-// 生成满屏重复“不准忘记我”红字
-function showFullRedText(){
+// 生成全屏重复文字：不准忘记我！
+function showFullRed(){
     const redWrap = document.getElementById("redWrap");
     redWrap.style.display = "block";
-    // 生成多行重复文字
-    let html = "";
-    for(let i=0;i<40;i++){
-        html += `<div class="red-text-item" style="animation-delay:${i*0.08}s">不准忘记我</div>`;
+    let htmlStr = "";
+    for(let i = 0; i < 45; i++){
+        htmlStr += `<div class="red-text-item" style="animation-delay:${i*0.07}s">不准忘记我！</div>`;
     }
-    redWrap.innerHTML = html;
-}
-
-// 延时工具函数
-function sleep(ms){
-    return new Promise(res=>setTimeout(res,ms));
+    redWrap.innerHTML = htmlStr;
 }
