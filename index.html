@@ -201,7 +201,7 @@
         }
         .text-line.cn{ font-size:14px; color:#aaa; }
 
-        /* 结尾独立结算页面，取消背景图，改用内部img正常加载 */
+        /* 修复1：删除冲突display:none，仅默认隐藏，激活时用JS设display:grid */
         .red-full-wrap{
             position:fixed;
             top:0;
@@ -212,13 +212,13 @@
             z-index:10000;
             overflow:hidden;
             display:none;
-            display: none;
             grid-template-columns: repeat(5, 1fr);
             padding: 20px;
             align-content: space-around;
             justify-items: center;
+            position: relative;
         }
-        /* 结局配图样式，正常图片元素加载 */
+        /* 图片：底层，不遮挡文字 */
         .end-img{
             position: absolute;
             width: 85%;
@@ -227,9 +227,11 @@
             left: 50%;
             transform: translate(-50%, -50%);
             object-fit: contain;
+            z-index: 1;
         }
+        /* 修复2：文字relative定位，z-index高于图片，强制深红色 !important 防止被覆盖 */
         .red-text-item{
-            color:#8b0000;
+            color:#8b0000 !important;
             font-size:14px;
             font-weight:normal;
             text-align:center;
@@ -271,7 +273,7 @@
         <div id="textContainer"></div>
     </div>
 
-    <!-- 结尾页面：图片为普通img标签，不再是背景 -->
+    <!-- 结尾页面：图片正常img元素，文字层级在上 -->
     <div class="red-full-wrap" id="redWrap">
         <img class="end-img" src="https://p3-flow-image-sign.byteimg.com/tos-cn-i-a9rns2rl98/30112130399b41389d4d44d4224d3031~tplv-a9rns2rl98-image.image" alt="预言家插画">
     </div>
