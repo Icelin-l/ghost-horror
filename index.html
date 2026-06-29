@@ -165,6 +165,7 @@
             color:#fff;
             cursor:pointer;
         }
+        /* 弹窗页面：默认完全隐藏，不会遮挡页面 */
         .oracle-page{
             position:fixed;
             top:0;
@@ -200,22 +201,21 @@
             transition:opacity 1.2s ease;
         }
         .text-line.cn{ font-size:14px; color:#aaa; }
-        /* 最终页面：背景为预言家原图，5列网格，文字白色 */
+
+        /* 最终结尾页面，修复重复display冲突 */
         .red-full-wrap{
             position:fixed;
             top:0;
             left:0;
             width:100vw;
             height:100vh;
-            /* 替换为目标图片背景，全屏覆盖 */
             background-image: url(https://p3-flow-image-sign.byteimg.com/tos-cn-i-a9rns2rl98/30112130399b41389d4d44d4224d3031~tplv-a9rns2rl98-image.image);
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             z-index:10000;
-            display:none;
             overflow:hidden;
-            display: grid;
+            display:none;
             grid-template-columns: repeat(5, 1fr);
         }
         .red-text-item{
@@ -254,12 +254,13 @@
         </div>
         <div class="result-box hidden"></div>
     </div>
-    <!-- 移除字符画容器 charArtBox -->
+
     <div class="oracle-page" id="oraclePage">
         <div class="mess-text-layer" id="messTextLayer"></div>
         <div id="textContainer"></div>
     </div>
     <div class="red-full-wrap" id="redWrap"></div>
+
     <script src="index.js"></script>
 </body>
 </html>
