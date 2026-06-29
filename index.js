@@ -1,3 +1,4 @@
+// 实时时钟
 function updateNowTime(){
     const t = new Date();
     document.getElementById("now-time").textContent = t.toLocaleString('zh-CN');
@@ -5,6 +6,7 @@ function updateNowTime(){
 updateNowTime();
 setInterval(updateNowTime, 1000);
 
+// 加载进度条
 let progressNum = 5;
 const pText = document.getElementById('progress');
 const pFill = document.getElementById('progress-fill');
@@ -19,6 +21,7 @@ const loadTimer = setInterval(()=>{
     }
 },80);
 
+// 30道测试题目
 const questions = [
     {q:"荒野发现无主源石矿点，你的选择？",opt:["私自开采武装自己","上报罗德岛统一处置","留给贫苦感染者取用"]},
     {q:"确诊矿石病你会？",opt:["隐瞒身份躲避歧视","前往罗德岛接受治疗","加入整合运动反抗不公"]},
@@ -31,30 +34,32 @@ const questions = [
     {q:"任务需要牺牲平民完成大局？",opt:["遵从指令完成任务","寻找两全方案","拒绝牺牲无辜者"]},
     {q:"被信任战友出卖后？",opt:["封闭内心不再信任他人","谨慎慢慢观察别人","依旧真诚待人"]},
     {q:"有机会移居无天灾和平国度？",opt:["立刻动身远离泰拉苦难","偶尔定居仍牵挂故土","拒绝离开坚守受苦民众"]},
-    {q:"偶遇迷路萨卡兹流浪孩童？",opt:["绕道避开麻烦","简单指路后离开","一路护送找寻亲人"]},
+    {q:"偶遇迷路萨卡兹流浪孩童？",opt:["绕道避开麻烦","简单指路后离开","一路护送帮其寻找去处"]},
     {q:"罗德岛与整合运动对峙，你的立场？",opt:["罗德岛：医治与秩序","中立同情双方苦难","整合运动：反抗不公"]},
     {q:"龙门币优先花销？",opt:["购置作战装备","补充全队医疗物资","捐助矿石病救助站"]},
     {q:"预知任务伤亡惨重还要执行？",opt:["找借口放弃高危任务","修改路线减少伤亡","牺牲自己完成使命"]},
-    {q:"空闲休息更喜欢？",opt:["独自修炼源石技艺","和同事闲谈放松","病房陪伴患病干员"]},
-    {q:"你如何看待源石？",opt:["纯粹灾祸应当远离","中性工具看人使用","承载文明苦难与希望"]},
-    {q:"临时接管全队指挥？",opt:["推脱不愿担责","必要时统筹安排","主动扛起全队重担"]},
+    {q:"空闲休息更喜欢？",opt:["独自钻研源石技艺","和同事闲谈放松","病房陪伴患病干员"]},
+    {q:"你如何看待源石？",opt:["纯粹灾祸应当远离","中性工具看人用法","承载文明苦难与希望"]},
+    {q:"临时接管全队指挥？",opt:["推脱不愿担责","必要时统筹全局","主动扛起全队重担"]},
     {q:"市民厌恶感染者的目光？",opt:["刻意远离人群","无视旁人眼光","科普矿石病消除偏见"]},
     {q:"根治矿石病需抹杀所有感染者？",opt:["赞同换取无病痛世界","犹豫不愿抹杀生命","坚决拒绝，众生皆有生存权"]},
     {q:"翻看干员档案最关注？",opt:["作战战绩履历","坎坷身世经历","柔软内心与执念"]},
     {q:"天灾信使邀你同行预警灾害？",opt:["婉拒不愿奔波","短途体验一次","长期同行警示民众"]},
-    {q:"挚友因矿石病走到尽头？",opt:["刻意回避离别伤感","安静陪完最后时光","不顾一切尝试续命"]},
+    {q:"挚友因矿石病走到末期？",opt:["刻意回避离别伤感","安静陪完最后时光","不顾一切尝试续命"]},
     {q:"你向往的泰拉势力秩序？",opt:["强者分级秩序","各国互不干涉","各族平等消除歧视"]},
     {q:"罗德岛高层首要目标？",opt:["扩张武装势力","批量研发治疗药剂","消除大众对感染者歧视"]},
     {q:"天灾废墟搜寻物资？",opt:["优先自保物资","顺带搜寻幸存者","优先救助普通百姓"]},
     {q:"他人向你灌输偏执教条？",opt:["礼貌回绝坚持自我","选择性接纳部分内容","完全遵从对方说教"]},
     {q:"队友失误导致任务崩盘？",opt:["疏远避开对方","复盘共同补救","主动揽责保护队友"]},
-    {q:"面对背负仇恨的爱国者？",opt:["心存畏惧疏远","理解遭遇但不认同极端","共情耐心倾听倾诉"]},
+    {q:"面对背负仇恨的爱国者？",opt:["心存畏惧疏远","理解遭遇但不认同极端","共情耐心开导对方"]},
     {q:"长期驻守偏远枯燥边境？",opt:["消极度日申请调走","认真完成本职工作","帮扶周边村镇贫苦百姓"]}
 ];
+
 let currentPage = 0;
 let totalScore = 0;
 let selected = false;
 
+// 渲染题目
 function renderQuestion(){
     selected = false;
     const item = questions[currentPage];
@@ -77,6 +82,7 @@ function renderQuestion(){
 }
 renderQuestion();
 
+// 下一题按钮
 document.querySelector('.next-btn').onclick = function(){
     if(!selected){
         alert("请先选择一个答案");
@@ -109,8 +115,9 @@ document.querySelector('.next-btn').onclick = function(){
         return;
     }
     renderQuestion();
-}
+};
 
+// 提交身份判断
 function handleAnswerSubmit(){
     const rawVal = document.getElementById('answerInput').value.trim().replace(/\s/g,"");
     if(rawVal.includes("博士")){
@@ -122,12 +129,13 @@ function handleAnswerSubmit(){
     }
 }
 
+// 延时函数
 function sleep(ms){
     return new Promise(res=>setTimeout(res,ms));
 }
 
+// 诗句动画页面
 async function openOraclePage(){
-    // 前置强制隐藏结尾页、结果页，防止多层重叠
     document.getElementById("redWrap").style.display = "none";
     document.querySelector('.result-box').classList.add('hidden');
     const oracleBox = document.getElementById("oraclePage");
@@ -175,13 +183,25 @@ async function openOraclePage(){
     showEndPage();
 }
 
-function showEndPage(){
+// 结尾页面：图片淡入→淡出→海量小字文字浮现
+async function showEndPage(){
     const wrap = document.getElementById("redWrap");
+    const imgEl = wrap.querySelector('.end-img');
     wrap.style.display = "grid";
-    let htmlContent = "";
-    for(let i=0;i<70;i++){
-        htmlContent += `<div class="red-text-item">不准忘记我！</div>`;
+
+    // 图片淡入
+    imgEl.style.opacity = "1";
+    await sleep(2800);
+    // 图片淡出
+    imgEl.style.opacity = "0";
+    await sleep(1500);
+
+    // 生成大量文字，行数大幅扩充
+    let textHtml = "";
+    // 循环生成120组，5列排版，全屏铺满
+    for(let i = 0; i < 120; i++){
+        textHtml += `<div class="red-text-item">不准忘记我！</div>`;
     }
-    // 先清空再插入图片+文字，避免重复叠加
-    wrap.innerHTML = `<img class="end-img" src="https://p3-flow-image-sign.byteimg.com/tos-cn-i-a9rns2rl98/30112130399b41389d4d44d4224d3031~tplv-a9rns2rl98-image.image" alt="预言家插画">` + htmlContent;
+    // 保留图片DOM，只追加文字
+    wrap.innerHTML = `<img class="end-img" src="https://p3-flow-image-sign.byteimg.com/tos-cn-i-a9rns2rl98/30112130399b41389d4d44d4224d3031~tplv-a9rns2rl98-image.image" alt="预言家插画">` + textHtml;
 }
