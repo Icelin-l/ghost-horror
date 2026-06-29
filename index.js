@@ -1,3 +1,4 @@
+// 实时时钟
 function updateNowTime(){
     const t = new Date();
     document.getElementById("now-time").textContent = t.toLocaleString();
@@ -5,6 +6,7 @@ function updateNowTime(){
 updateNowTime();
 setInterval(updateNowTime, 1000);
 
+// 加载进度条
 let progressNum = 5;
 const pText = document.getElementById('progress');
 const pFill = document.getElementById('progress-fill');
@@ -19,6 +21,7 @@ const loadTimer = setInterval(()=>{
     }
 },80);
 
+// 30道题目题库
 const questions = [
     {q:"荒野发现无主源石矿点，你的选择？",opt:["私自开采武装自己","上报罗德岛统一处置","留给贫苦感染者取用"]},
     {q:"确诊矿石病你会？",opt:["隐瞒身份躲避歧视","前往罗德岛接受治疗","加入整合运动反抗不公"]},
@@ -51,28 +54,31 @@ const questions = [
     {q:"面对背负仇恨的爱国者？",opt:["心存畏惧疏远","理解遭遇但不认同极端","共情耐心开导对方"]},
     {q:"长期驻守偏远枯燥边境？",opt:["消极度日申请调走","认真完成本职工作","帮扶周边村镇贫苦百姓"]}
 ];
+
 let currentPage = 0;
 let totalScore = 0;
 let selected = false;
 
-// 修复选中BUG：修正classList语法错误
+// 渲染题目+选项 核心选中逻辑修复完毕
 function renderQuestion(){
     selected = false;
     const item = questions[currentPage];
     document.querySelector('.question').textContent = item.q;
     const optWrap = document.querySelector('.options');
     optWrap.innerHTML = "";
-    item.opt.forEach((opt,idx)=>{
+
+    item.opt.forEach((opt, idx)=>{
         const div = document.createElement("div");
         div.className = "opt-item";
         div.textContent = opt;
-        div.onclick = ()=>{
-            // 清除所有选项active
-            document.querySelectorAll(".opt-item").forEach(d=>{
-                d.classList.remove("active");
+
+        div.onclick = function(){
+            // 清空所有选中样式
+            document.querySelectorAll(".opt-item").forEach(ele=>{
+                ele.classList.remove("active");
             });
-            // 给当前点击添加选中
-            div.classList.add("active");
+            // 当前选项激活
+            this.classList.add("active");
             selected = true;
             totalScore = totalScore + idx;
         }
@@ -82,6 +88,7 @@ function renderQuestion(){
 }
 renderQuestion();
 
+// 下一题按钮逻辑
 document.querySelector('.next-btn').onclick = function(){
     if(!selected){
         alert("请先选择一项答案");
@@ -92,6 +99,7 @@ document.querySelector('.next-btn').onclick = function(){
         document.querySelector('.test-box').classList.add('hidden');
         const resultBox = document.querySelector('.result-box');
         resultBox.classListList.remove('hidden');
+
         let resText = "";
         if(totalScore <= 20){
             resText = `<h3>荒野独行求生者</h3><p>乱世之中优先保全自身，习惯独来独往，给自己筑起一道坚固的心墙。</p>`;
@@ -100,6 +108,7 @@ document.querySelector('.next-btn').onclick = function(){
         }else{
             resText = `<h3>泰拉悲悯理想者</h3><p>共情世间种种苦难，愿意牺牲自身利益，追求各族平等、没有歧视的世界。</p>`;
         }
+
         const inputHtml = `
             <button class="restart-btn" onclick="location.reload()">重新测试</button>
             <div class="ask-wrap">
@@ -116,6 +125,7 @@ document.querySelector('.next-btn').onclick = function(){
     renderQuestion();
 };
 
+// 身份提交判断
 function handleAnswerSubmit(){
     const rawVal = document.getElementById('answerInput').value.trim().replace(/\s/g,"");
     if(rawVal.includes("博士")){
@@ -127,10 +137,12 @@ function handleAnswerSubmit(){
     }
 }
 
+// 延时封装
 function sleep(ms){
-    return new Promise(res=>setTimeout(res,ms));
+    return new Promise(resolve=>setTimeout(resolve, ms));
 }
 
+// 诗句动画页面
 async function openOraclePage(){
     document.getElementById("redWrap").style.display = "none";
     document.querySelector('.result-box').classList.add('hidden');
@@ -179,26 +191,25 @@ async function openOraclePage(){
     showEndPage();
 }
 
-// 图片加载失败自动跳过，不会卡死动画
+// 结尾图片+文字动画，加载失败自动跳过图片
 async function showEndPage(){
     const wrap = document.getElementById("redWrap");
     wrap.style.display = "grid";
     const imgEl = wrap.querySelector('.end-img');
 
-    // 加载失败直接渲染文字
-    imgEl.onerror = function(){
-        renderTextContent(wrap);
-    }
+    imgEl.onerror = ()=>{
+        renderText(wrap);
+    };
 
     imgEl.style.opacity = "1";
     await sleep(2800);
     imgEl.style.opacity = "0";
     await sleep(1500);
-    renderTextContent(wrap);
+    renderText(wrap);
 }
 
-// 渲染铺满屏幕文字
-function renderTextContent(wrapDom){
+// 渲染全屏重复文字
+function renderText(wrapDom){
     let textHtml = "";
     for(let i = 0; i < 120; i++){
         textHtml += `<div class="red-text-item">不准忘记我！</div>`;
