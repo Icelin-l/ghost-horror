@@ -1,7 +1,7 @@
 // 实时时钟
 function updateNowTime(){
     const t = new Date();
-    document.getElementById("now-time").textContent = t.toLocaleString();
+    document.getElementById("now-time").textContent = t.toLocaleString('zh-CN');
 }
 updateNowTime();
 setInterval(updateNowTime, 1000);
@@ -21,7 +21,7 @@ const loadTimer = setInterval(()=>{
     }
 },80);
 
-// 30道题目题库
+// 30道测试题目
 const questions = [
     {q:"荒野发现无主源石矿点，你的选择？",opt:["私自开采武装自己","上报罗德岛统一处置","留给贫苦感染者取用"]},
     {q:"确诊矿石病你会？",opt:["隐瞒身份躲避歧视","前往罗德岛接受治疗","加入整合运动反抗不公"]},
@@ -41,7 +41,7 @@ const questions = [
     {q:"空闲休息更喜欢？",opt:["独自钻研源石技艺","和同事闲谈放松","病房陪伴患病干员"]},
     {q:"你如何看待源石？",opt:["纯粹灾祸应当远离","中性工具看人用法","承载文明苦难与希望"]},
     {q:"临时接管全队指挥？",opt:["推脱不愿担责","必要时统筹全局","主动扛起全队重担"]},
-    {q:"旁人厌恶感染者的目光？",opt:["刻意远离人群","无视他人眼光","科普矿石病消除偏见"]},
+    {q:"市民厌恶感染者的目光？",opt:["刻意远离人群","无视旁人眼光","科普矿石病消除偏见"]},
     {q:"根治矿石病需抹杀所有感染者？",opt:["赞同换取无病痛世界","犹豫不愿抹杀生命","坚决拒绝，众生皆有生存权"]},
     {q:"翻看干员档案最关注？",opt:["作战战绩履历","坎坷身世经历","柔软内心与执念"]},
     {q:"天灾信使邀你同行预警灾害？",opt:["婉拒不愿奔波","短途体验一次","长期同行警示民众"]},
@@ -59,7 +59,7 @@ let currentPage = 0;
 let totalScore = 0;
 let selected = false;
 
-// 渲染题目+选项 核心选中逻辑修复完毕
+// 渲染题目与选项
 function renderQuestion(){
     selected = false;
     const item = questions[currentPage];
@@ -71,17 +71,14 @@ function renderQuestion(){
         const div = document.createElement("div");
         div.className = "opt-item";
         div.textContent = opt;
-
         div.onclick = function(){
-            // 清空所有选中样式
             document.querySelectorAll(".opt-item").forEach(ele=>{
                 ele.classList.remove("active");
             });
-            // 当前选项激活
             this.classList.add("active");
             selected = true;
-            totalScore = totalScore + idx;
-        }
+            totalScore += idx;
+        };
         optWrap.appendChild(div);
     });
     document.getElementById('page-num').textContent = `第${currentPage+1}题 / 共${questions.length}题`;
@@ -98,8 +95,7 @@ document.querySelector('.next-btn').onclick = function(){
     if(currentPage >= questions.length){
         document.querySelector('.test-box').classList.add('hidden');
         const resultBox = document.querySelector('.result-box');
-        resultBox.classListList.remove('hidden');
-
+        resultBox.classList.remove('hidden');
         let resText = "";
         if(totalScore <= 20){
             resText = `<h3>荒野独行求生者</h3><p>乱世之中优先保全自身，习惯独来独往，给自己筑起一道坚固的心墙。</p>`;
@@ -108,7 +104,6 @@ document.querySelector('.next-btn').onclick = function(){
         }else{
             resText = `<h3>泰拉悲悯理想者</h3><p>共情世间种种苦难，愿意牺牲自身利益，追求各族平等、没有歧视的世界。</p>`;
         }
-
         const inputHtml = `
             <button class="restart-btn" onclick="location.reload()">重新测试</button>
             <div class="ask-wrap">
@@ -137,12 +132,12 @@ function handleAnswerSubmit(){
     }
 }
 
-// 延时封装
+// 延时函数
 function sleep(ms){
     return new Promise(resolve=>setTimeout(resolve, ms));
 }
 
-// 诗句动画页面
+// 预言家诗句动画页面
 async function openOraclePage(){
     document.getElementById("redWrap").style.display = "none";
     document.querySelector('.result-box').classList.add('hidden');
@@ -191,16 +186,18 @@ async function openOraclePage(){
     showEndPage();
 }
 
-// 结尾图片+文字动画，加载失败自动跳过图片
+// 结尾动画页面（修复变量拼写错误）
 async function showEndPage(){
     const wrap = document.getElementById("redWrap");
     wrap.style.display = "grid";
     const imgEl = wrap.querySelector('.end-img');
 
+    // 图片加载出错兜底
     imgEl.onerror = ()=>{
         renderText(wrap);
     };
 
+    // 图片淡入停留再淡出
     imgEl.style.opacity = "1";
     await sleep(2800);
     imgEl.style.opacity = "0";
@@ -208,7 +205,7 @@ async function showEndPage(){
     renderText(wrap);
 }
 
-// 渲染全屏重复文字
+// 生成铺满屏幕小字
 function renderText(wrapDom){
     let textHtml = "";
     for(let i = 0; i < 120; i++){
